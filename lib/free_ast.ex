@@ -3,29 +3,38 @@ defmodule FreeAst do
   Implements something similar to Free Monad.
   """
 
-  @type interpreter :: fun(1)
+  alias FreeAst.{Effect, Program}
+
+  @type interpreter :: fun(2)
 
   @doc """
   Interprets a program with the supplied interpreter.
   """
-  @spec interpret(Program.t(), interpreter) :: term
+  @spec interpret(Program.t() | Effect.t(), interpreter) :: term
   def interpret(program, interpreter)
 
   def interpret(%FreeAst.Program{program: program}, interpreter)
-      when is_function(interpreter, 1) do
+      when is_function(interpreter, 2) do
     program.(interpreter)
   end
 
-  def interpret(%FreeAst.Program{}, _) do
+  def interpret(%FreeAst.Effect{kind: kind, action: action}, interpreter)
+      when is_function(interpreter, 2) do
+    interpreter.(kind, action)
+  end
+
+  def interpret(_, interpreter) when is_function(interpreter, 2) do
     raise ArgumentError, """
-    expected an interpreter to take exactly one argument
+    expected first argument to be a program or an effect
+
+    Make sure you got the program from the p/1 macro and that you do not use
+    do_ or let directives on not effectfull values
     """
   end
 
   def interpret(_, _) do
     raise ArgumentError, """
-    expected first argument to be a program. Make sure you got the program from
-    the p/1 macro
+    expected an interpreter to take exactly two arguments
     """
   end
 
@@ -65,20 +74,13 @@ defmodule FreeAst do
 
   defp expand_let_bindings({:let, _, [{:=, _, [binding, expression]}]}) do
     quote do
-      unquote(binding) =
-        case unquote(expression) do
-          %FreeAst.Program{program: program} -> program.(interpreter)
-          command -> interpreter.(command)
-        end
+      unquote(binding) = FreeAst.interpret(unquote(expression), interpreter)
     end
   end
 
   defp expand_let_bindings({:do_, _, [expression]}) do
     quote do
-      case unquote(expression) do
-        %FreeAst.Program{program: program} -> program.(interpreter)
-        command -> interpreter.(command)
-      end
+      FreeAst.interpret(unquote(expression), interpreter)
     end
   end
 
