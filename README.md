@@ -3,14 +3,18 @@
 Implements something similar to Free Monad. See examples directory for
 more information.
 
+## Usage
+
+See [hexdocs](https://hexdocs.pm/free_ast) documentation for details.
+
 ## Installation
 
-You can install it as github dependency:
+Add the following code to your `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:free_ast, github: "yunmikun2/free_ast", branch: "master"}
+    {:free_ast, "~> 0.3"}
   ]
 end
 ```
