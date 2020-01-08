@@ -4,8 +4,8 @@ defmodule FreeAst.MixProject do
   def project do
     [
       app: :free_ast,
-      version: "0.3.0",
-      elixir: "~> 1.9",
+      version: "0.3.1",
+      elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -16,7 +16,13 @@ defmodule FreeAst.MixProject do
       docs: [
         main: "FreeAst",
         extras: ["README.md"]
-      ]
+      ],
+
+      # Hex
+      description: """
+      Elixir library to manage effects.
+      """,
+      package: package()
     ]
   end
 
@@ -27,6 +33,13 @@ defmodule FreeAst.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      links: %{"GitHub" => "https://github.com/yunmikun2/free_ast"},
+      licenses: ["LGPL-v3"]
     ]
   end
 

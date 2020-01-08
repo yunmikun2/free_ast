@@ -38,12 +38,12 @@ defmodule FreeAst do
   is an atom or an alias, action name which is an atom, and a list of
   arguments of the action.
   """
-  @type interpreter :: fun(3)
+  @type interpreter :: (atom, atom, [term] -> term)
 
   @typedoc """
   Represents a program (returned by `p/1` macro).
   """
-  @type program :: Program.t() | Effect.t()
+  @opaque program :: Program.t() | Effect.t()
 
   @doc """
   Interprets a program with the supplied interpreter.
