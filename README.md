@@ -1,5 +1,8 @@
 # FreeAst
 
+![](https://github.com/yunmikun2/free_ast/workflows/mix%20test/badge.svg)
+![](https://github.com/yunmikun2/free_ast/workflows/mix%20format/badge.svg)
+
 Implements something similar to Free Monad. See examples directory for
 more information.
 
