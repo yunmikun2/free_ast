@@ -4,7 +4,7 @@ defmodule FreeAst.MixProject do
   def project do
     [
       app: :free_ast,
-      version: "0.3.1",
+      version: "0.3.2",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -39,7 +39,8 @@ defmodule FreeAst.MixProject do
   defp package do
     [
       links: %{"GitHub" => "https://github.com/yunmikun2/free_ast"},
-      licenses: ["LGPL-v3"]
+      licenses: ["LGPL-v3"],
+      files: ~w(.formatter.exs mix.exs lib test/support README.md LICENSE.md)
     ]
   end
 
