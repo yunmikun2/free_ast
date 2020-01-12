@@ -1,5 +1,8 @@
 name: mix format
-on: [push]
+on:
+  push:
+  pull_request:
+    types: [opened reopened syncronize closed]
 
 jobs:
   test:
